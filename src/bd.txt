@@ -1,0 +1,49 @@
+CREATE DATABASE bdVentaLibros DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_spanish_ci;
+create table bdVentaLibros.cliente(
+dni varchar(9) primary key,
+nombre varchar(30) not null,
+apellido varchar(50) not null,
+apellido_2 varchar(50) not null,
+telefono varchar(9) not null,
+email varchar(50),
+calle varchar(30) not null,
+localizacion varchar(30) not null,
+numero varchar(2) not null,
+puerta varchar(10) not null
+);
+create TABLE bdVentaLibros.libros(
+	isbn varchar(13) PRIMARY KEY,
+	nombre varchar(50),
+	descripción varchar(200),
+	autor varchar(50),
+	editorial varchar(50),
+	genero enum('Fantasía','Romántico','Contemporanea','Humor','Novela negra','Erótica','Thriller'),
+	tapa enum('Tapa dura','Tapa blanda'),
+	fecha_lanzamiento date not null,
+	precio double(3,2)
+); 
+create TABLE bdVentaLibros.factura(
+	n_factura varchar(9) PRIMARY KEY,
+	IVA FLOAT(5,2) unsigned NOT NULL,
+	FechaFaktura Date NOT NULL,
+	Precio_total float(6,2)unsigned not null,
+	dni char(7) REFERENCES cliente(dni),
+	cod_pedido varchar(7) References pedido(cod_pedido)
+);
+
+CREATE TABLE bdVentaLibros.pedido
+(	cod_pedido varchar(7) PRIMARY KEY,
+	FechaPedido Date NOT NULL,
+	dni varchar(9) REFERENCES cliente(dni),
+	Estado enum('Pendiente','Finalizado','Facturado')
+);
+CREATE TABLE bdVentaLibros.pedido_libro
+(
+cod_pedido varchar(7) ,
+isbn varchar(13) ,
+Cant int(3) NOT NULL,
+Foreign Key(isbn) REFERENCES libros(isbn),
+Foreign Key(cod_pedido) REFERENCES pedido(cod_pedido),
+Primary KEY (cod_pedido,isbn)
+);
+
