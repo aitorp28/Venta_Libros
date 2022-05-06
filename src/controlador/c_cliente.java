@@ -81,9 +81,7 @@ public class c_cliente extends c_bd{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection konexioa = DriverManager.getConnection("jdbc:mysql://localhost/bdventaordenadores", "root", "");
 			Statement st = konexioa.createStatement();
-			
 			st.executeUpdate("INSERT INTO cliente VALUES ('"+c0.getDocumentacion()+"','"+c0.getNombre()+"','"+c0.getApellido()+"','"+c0.getApellido_2()+"','"+c0.getTlf()+"','"+c0.getCorreo()+"','"+c0.getKalea()+"','"+c0.getKokapena()+"','"+c0.getZenbakia()+"','"+c0.getAtea()+"')" );
-			
 			st.close();
 			
 			konexioa.close();
