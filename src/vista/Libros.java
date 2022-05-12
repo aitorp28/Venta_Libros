@@ -22,14 +22,21 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import java.awt.Panel;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import javax.swing.JCheckBox;
 import java.awt.Color;
 import java.awt.event.InputMethodListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodEvent;
+import javax.swing.JTextArea;
+import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.DropMode;
 
 public class Libros extends JFrame {
 
@@ -39,15 +46,23 @@ public class Libros extends JFrame {
 	private JTextField tfGenero;
 	private JTextField tfEditorial;
 	private JTextField tfFechaDeLanzamiento;
-	private JTable table;
-	private JCheckBox chTapaDura;
-	private JCheckBox chTapaBlanda;
 	private JLabel lblTituloLibros;
 	private JButton btnEliminar;
 	private JButton btnModificar;
 	private JButton btnCrear;
 	private JLabel lblISBN;
 	private JTextField tfISBN;
+	private JLabel lblPrecio;
+	private JTextField tfPrecio;
+	private JLabel lblDescripcion;
+	private Panel panel;
+	private JRadioButtonMenuItem rdbtnmntmNewRadioItem;
+	private JRadioButton rbtnTapaDura;
+	private JRadioButton rbtnTapaBlanda;
+	private JScrollPane scrollPane;
+	private JTextArea taDescripcion;
+	private JScrollPane scrollPane_1;
+	private JTable tbLibros;
 
 	/**
 	 * Launch the application.
@@ -70,15 +85,15 @@ public class Libros extends JFrame {
 	 */
 	public Libros() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 698, 476);
+		setBounds(100, 100, 802, 587);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 119, 118, 130, 155, 122, 0};
-		gbl_contentPane.rowHeights = new int[]{59, 41, 46, 42, 0, 0, 64, 0, 110, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[]{0, 119, 118, 130, 155, 0, 0, 122, 0};
+		gbl_contentPane.rowHeights = new int[]{59, 41, 46, 42, 0, 0, 0, 0, 31, 0, 110, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		lblTituloLibros = new JLabel("LIBROS ");
@@ -195,21 +210,62 @@ public class Libros extends JFrame {
 		gbc_tfISBN.gridy = 3;
 		contentPane.add(tfISBN, gbc_tfISBN);
 		
-		chTapaBlanda = new JCheckBox("Tapa Blanda");
-		chTapaBlanda.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_chTapaBlanda = new GridBagConstraints();
-		gbc_chTapaBlanda.insets = new Insets(0, 0, 5, 5);
-		gbc_chTapaBlanda.gridx = 3;
-		gbc_chTapaBlanda.gridy = 4;
-		contentPane.add(chTapaBlanda, gbc_chTapaBlanda);
+		lblPrecio = new JLabel("Precio \u20AC");
+		lblPrecio.setVerticalAlignment(SwingConstants.TOP);
+		lblPrecio.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblPrecio = new GridBagConstraints();
+		gbc_lblPrecio.anchor = GridBagConstraints.NORTHEAST;
+		gbc_lblPrecio.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrecio.gridx = 1;
+		gbc_lblPrecio.gridy = 4;
+		contentPane.add(lblPrecio, gbc_lblPrecio);
 		
-		chTapaDura = new JCheckBox("Tapa Dura");
-		chTapaDura.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_chTapaDura = new GridBagConstraints();
-		gbc_chTapaDura.insets = new Insets(0, 0, 5, 5);
-		gbc_chTapaDura.gridx = 4;
-		gbc_chTapaDura.gridy = 4;
-		contentPane.add(chTapaDura, gbc_chTapaDura);
+		tfPrecio = new JTextField();
+		GridBagConstraints gbc_tfPrecio = new GridBagConstraints();
+		gbc_tfPrecio.anchor = GridBagConstraints.NORTH;
+		gbc_tfPrecio.insets = new Insets(0, 0, 5, 5);
+		gbc_tfPrecio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPrecio.gridx = 2;
+		gbc_tfPrecio.gridy = 4;
+		contentPane.add(tfPrecio, gbc_tfPrecio);
+		tfPrecio.setColumns(10);
+		
+		lblDescripcion = new JLabel("Descripcion");
+		GridBagConstraints gbc_lblDescripcion = new GridBagConstraints();
+		gbc_lblDescripcion.anchor = GridBagConstraints.NORTHEAST;
+		gbc_lblDescripcion.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDescripcion.gridx = 3;
+		gbc_lblDescripcion.gridy = 4;
+		contentPane.add(lblDescripcion, gbc_lblDescripcion);
+		
+		scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 2;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 4;
+		gbc_scrollPane.gridy = 4;
+		contentPane.add(scrollPane, gbc_scrollPane);
+		
+		taDescripcion = new JTextArea();
+		taDescripcion.setLineWrap(true);
+		scrollPane.setViewportView(taDescripcion);
+		
+		panel = new Panel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.gridx = 2;
+		gbc_panel.gridy = 5;
+		contentPane.add(panel, gbc_panel);
+		
+		rbtnTapaBlanda = new JRadioButton("Tabla Blanda");
+		panel.add(rbtnTapaBlanda);
+		
+		rbtnTapaDura = new JRadioButton("Tapa Dura");
+		panel.add(rbtnTapaDura);
+		
+		rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("New radio item");
+		panel.add(rdbtnmntmNewRadioItem);
 		
 		btnCrear = new JButton("Crear");
 		btnCrear.setBackground(new Color(50, 205, 50));
@@ -217,26 +273,33 @@ public class Libros extends JFrame {
 		gbc_btnCrear.ipadx = 15;
 		gbc_btnCrear.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCrear.gridx = 2;
-		gbc_btnCrear.gridy = 5;
+		gbc_btnCrear.gridy = 7;
 		contentPane.add(btnCrear, gbc_btnCrear);
 		btnCrear.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(comprobar_nombre(tfNombre.getText().trim())
-						&&comprobar_Autor(tfAutor.getText().trim())
-								&&comprobar_nombre(tfEditorial.getText().trim())
-									&&comprobar_Genero(tfGenero.getText().trim())
-										&&comprobar_fecha(tfFechaDeLanzamiento.getText().trim())
-											&&comprobar_ISBN(tfISBN.getText().trim()));
-				System.out.println(tfNombre.getText().trim());
-				if(comprobar_nombre(tfNombre.getText().trim())) {
-					System.out.println("fggggggggggggg");
-				}else {
-					System.out.println("ftghhhy");
-				}
-				
+
+			if(comprobar_Autor(tfAutor.getText().trim())
+									&&comprobar_nombre(tfEditorial.getText().trim())
+										&&comprobar_Genero(tfGenero.getText().trim())
+											&&comprobar_fecha(tfFechaDeLanzamiento.getText().trim())
+												//&&comprobar_precio(tfPrecio.getText().trim())
+													//&&comprobar_precio(taDescripcion.getText().trim())
+														&&comprobar_ISBN(tfISBN.getText().trim()))
+			{
+				/*if(rbtnTapaBlanda.isSelected()!= rbtnTapaDura.isSelected()) {
+					System.out.println("yers");
+				}{
+					
+				}*/
+				System.out.println("ejjejejfjsfjsejfsjefsjsjej");
+			}else {
+				System.out.println("nope");
 			}
+		
+			
+		}
 		});
 		
 		
@@ -247,7 +310,7 @@ public class Libros extends JFrame {
 		gbc_btnModificar.fill = GridBagConstraints.VERTICAL;
 		gbc_btnModificar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnModificar.gridx = 3;
-		gbc_btnModificar.gridy = 5;
+		gbc_btnModificar.gridy = 7;
 		contentPane.add(btnModificar, gbc_btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
@@ -257,17 +320,21 @@ public class Libros extends JFrame {
 		gbc_btnEliminar.ipadx = 7;
 		gbc_btnEliminar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEliminar.gridx = 4;
-		gbc_btnEliminar.gridy = 5;
+		gbc_btnEliminar.gridy = 7;
 		contentPane.add(btnEliminar, gbc_btnEliminar);
 		
-		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridheight = 3;
-		gbc_table.gridwidth = 6;
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 0;
-		gbc_table.gridy = 6;
-		contentPane.add(table, gbc_table);
+		scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.gridwidth = 8;
+		gbc_scrollPane_1.gridheight = 2;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 9;
+		contentPane.add(scrollPane_1, gbc_scrollPane_1);
+		
+		tbLibros = new JTable();
+		scrollPane_1.setViewportView(tbLibros);
 		
 		
 		
@@ -293,14 +360,46 @@ public class Libros extends JFrame {
 		
 	}
 	private Boolean comprobar_ISBN(String isbn_Libro) {
-		String regex_isbn_Libro="/[0-9]{13}$/";
+		String regex_isbn_Libro="[0-9]{13}$";
 		return Pattern.matches(regex_isbn_Libro, isbn_Libro);
 		
 	}
 	
 	private Boolean comprobar_fecha(String fecha_Libro) {
-		String regex_fecha_Libro="/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/";
-		return Pattern.matches(regex_fecha_Libro, fecha_Libro);
+		try {
+			
+	
+		SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
+
+		String dateString = format.format( new Date()   );
+		Date   date       = format.parse ( "31-12-2009" );   
+		
+		return true;
+		}catch(NumberFormatException e) {
+			return false;
+		} catch (ParseException e) {
+			return false;
+		}
+	}
+	private Boolean comprobar_descripcion(String descripcion_Libro) {
+		
+			if (descripcion_Libro.length() > 199) {
+				return true;
+			}else {
+				return false;
+			}
+		
+	}
+	
+	private Boolean comprobar_precio(String precio) {
+		try {
+			
+			Double.parseDouble(precio);
+			return true;
+			
+		}catch(NumberFormatException e) {
+			return false;
+		}
 		
 	}
 
