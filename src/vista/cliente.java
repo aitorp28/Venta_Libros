@@ -38,6 +38,10 @@ import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Dialog.ModalExclusionType;
 
 public class cliente extends JFrame {
 
@@ -68,6 +72,7 @@ public class cliente extends JFrame {
 				try {
 					cliente frame = new cliente();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -83,119 +88,220 @@ public class cliente extends JFrame {
 		setBounds(100, 100, 768, 344);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{0, 63, 107, 152, 157, 150, 0};
+		gbl_contentPane.rowHeights = new int[]{47, 24, 23, 26, 24, 24, 0, 40, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
 		
 		identificador = new JComboBox();
-		identificador.setBounds(10, 47, 90, 22);
-		contentPane.add(identificador);
+		GridBagConstraints gbc_identificador = new GridBagConstraints();
+		gbc_identificador.fill = GridBagConstraints.BOTH;
+		gbc_identificador.insets = new Insets(0, 0, 5, 5);
+		gbc_identificador.gridx = 2;
+		gbc_identificador.gridy = 1;
+		contentPane.add(identificador, gbc_identificador);
 		identificador.addItem("NAN");
 		identificador.addItem("NIE");
 		identificador.addItem("CIF");
 		
-		JLabel lblnombre = new JLabel("Izena");
-		lblnombre.setBounds(10, 80, 90, 22);
-		contentPane.add(lblnombre);
-		
-		JLabel lblape = new JLabel("Abizena");
-		lblape.setBounds(10, 113, 90, 22);
-		contentPane.add(lblape);
-		
-		JLabel lblape2 = new JLabel("Bigarren abizena");
-		lblape2.setBounds(10, 146, 90, 22);
-		contentPane.add(lblape2);
-		
-		JLabel lbltel = new JLabel("Telefonoa");
-		lbltel.setBounds(10, 179, 90, 22);
-		contentPane.add(lbltel);
-		
-		telefonoa = new JTextField();
-		telefonoa.setBounds(110, 179, 152, 22);
-		contentPane.add(telefonoa);
-		telefonoa.setColumns(10);
-		
-		JLabel lblloc = new JLabel("Kokapena");
-		lblloc.setBounds(272, 47, 90, 22);
-		contentPane.add(lblloc);
-		
-		JLabel lblcalle = new JLabel("Kalea");
-		lblcalle.setBounds(272, 80, 90, 22);
-		contentPane.add(lblcalle);
-		
-		JLabel lblnum = new JLabel("Zenbakia");
-		lblnum.setBounds(272, 113, 90, 22);
-		contentPane.add(lblnum);
-		
-		JLabel lblpuer = new JLabel("Atea");
-		lblpuer.setBounds(272, 146, 90, 22);
-		contentPane.add(lblpuer);
-		
-		JLabel lblemail = new JLabel("Email");
-		lblemail.setBounds(272, 179, 90, 22);
-		contentPane.add(lblemail);
-		
-		email = new JTextField();
-		email.setBounds(337, 179, 152, 22);
-		contentPane.add(email);
-		email.setColumns(10);
-		
-		izena = new JTextField();
-		izena.setBounds(110, 81, 152, 22);
-		contentPane.add(izena);
-		izena.setColumns(10);
-		
-		abizena = new JTextField();
-		abizena.setBounds(110, 114, 152, 22);
-		contentPane.add(abizena);
-		abizena.setColumns(10);
-		
-		abizena_2 = new JTextField();
-		abizena_2.setBounds(110, 147, 152, 21);
-		contentPane.add(abizena_2);
-		abizena_2.setColumns(10);
-		
 		dni = new JTextField();
-		dni.setBounds(110, 48, 152, 21);
-		contentPane.add(dni);
+		GridBagConstraints gbc_dni = new GridBagConstraints();
+		gbc_dni.fill = GridBagConstraints.BOTH;
+		gbc_dni.insets = new Insets(0, 0, 5, 5);
+		gbc_dni.gridx = 3;
+		gbc_dni.gridy = 1;
+		contentPane.add(dni, gbc_dni);
 		dni.setColumns(10);
 		
 		kokapena = new JTextField();
-		kokapena.setBounds(337, 48, 152, 21);
-		contentPane.add(kokapena);
+		GridBagConstraints gbc_kokapena = new GridBagConstraints();
+		gbc_kokapena.fill = GridBagConstraints.BOTH;
+		gbc_kokapena.insets = new Insets(0, 0, 5, 0);
+		gbc_kokapena.gridx = 5;
+		gbc_kokapena.gridy = 1;
+		contentPane.add(kokapena, gbc_kokapena);
 		kokapena.setColumns(10);
 		
+		JLabel lblloc = new JLabel("Kokapena");
+		GridBagConstraints gbc_lblloc = new GridBagConstraints();
+		gbc_lblloc.anchor = GridBagConstraints.EAST;
+		gbc_lblloc.fill = GridBagConstraints.VERTICAL;
+		gbc_lblloc.insets = new Insets(0, 0, 5, 5);
+		gbc_lblloc.gridx = 4;
+		gbc_lblloc.gridy = 1;
+		contentPane.add(lblloc, gbc_lblloc);
+		
+		JLabel lblnombre = new JLabel("Izena");
+		GridBagConstraints gbc_lblnombre = new GridBagConstraints();
+		gbc_lblnombre.fill = GridBagConstraints.BOTH;
+		gbc_lblnombre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblnombre.gridx = 2;
+		gbc_lblnombre.gridy = 2;
+		contentPane.add(lblnombre, gbc_lblnombre);
+		
+		izena = new JTextField();
+		GridBagConstraints gbc_izena = new GridBagConstraints();
+		gbc_izena.fill = GridBagConstraints.BOTH;
+		gbc_izena.insets = new Insets(0, 0, 5, 5);
+		gbc_izena.gridx = 3;
+		gbc_izena.gridy = 2;
+		contentPane.add(izena, gbc_izena);
+		izena.setColumns(10);
+		
 		kalea = new JTextField();
-		kalea.setBounds(337, 81, 152, 22);
-		contentPane.add(kalea);
+		GridBagConstraints gbc_kalea = new GridBagConstraints();
+		gbc_kalea.fill = GridBagConstraints.BOTH;
+		gbc_kalea.insets = new Insets(0, 0, 5, 0);
+		gbc_kalea.gridx = 5;
+		gbc_kalea.gridy = 2;
+		contentPane.add(kalea, gbc_kalea);
 		kalea.setColumns(10);
 		
+		JLabel lblcalle = new JLabel("Kalea");
+		GridBagConstraints gbc_lblcalle = new GridBagConstraints();
+		gbc_lblcalle.anchor = GridBagConstraints.EAST;
+		gbc_lblcalle.fill = GridBagConstraints.VERTICAL;
+		gbc_lblcalle.insets = new Insets(0, 0, 5, 5);
+		gbc_lblcalle.gridx = 4;
+		gbc_lblcalle.gridy = 2;
+		contentPane.add(lblcalle, gbc_lblcalle);
+		
+		JLabel lblape = new JLabel("Abizena");
+		GridBagConstraints gbc_lblape = new GridBagConstraints();
+		gbc_lblape.fill = GridBagConstraints.BOTH;
+		gbc_lblape.insets = new Insets(0, 0, 5, 5);
+		gbc_lblape.gridx = 2;
+		gbc_lblape.gridy = 3;
+		contentPane.add(lblape, gbc_lblape);
+		
+		abizena = new JTextField();
+		GridBagConstraints gbc_abizena = new GridBagConstraints();
+		gbc_abizena.fill = GridBagConstraints.BOTH;
+		gbc_abizena.insets = new Insets(0, 0, 5, 5);
+		gbc_abizena.gridx = 3;
+		gbc_abizena.gridy = 3;
+		contentPane.add(abizena, gbc_abizena);
+		abizena.setColumns(10);
+		
+		JLabel lblnum = new JLabel("Zenbakia");
+		GridBagConstraints gbc_lblnum = new GridBagConstraints();
+		gbc_lblnum.anchor = GridBagConstraints.EAST;
+		gbc_lblnum.fill = GridBagConstraints.VERTICAL;
+		gbc_lblnum.insets = new Insets(0, 0, 5, 5);
+		gbc_lblnum.gridx = 4;
+		gbc_lblnum.gridy = 3;
+		contentPane.add(lblnum, gbc_lblnum);
+		
 		zenbakia = new JTextField();
-		zenbakia.setBounds(337, 114, 152, 21);
-		contentPane.add(zenbakia);
+		GridBagConstraints gbc_zenbakia = new GridBagConstraints();
+		gbc_zenbakia.fill = GridBagConstraints.BOTH;
+		gbc_zenbakia.insets = new Insets(0, 0, 5, 0);
+		gbc_zenbakia.gridx = 5;
+		gbc_zenbakia.gridy = 3;
+		contentPane.add(zenbakia, gbc_zenbakia);
 		zenbakia.setColumns(10);
 		
+		JLabel lblape2 = new JLabel("Bigarren abizena");
+		GridBagConstraints gbc_lblape2 = new GridBagConstraints();
+		gbc_lblape2.fill = GridBagConstraints.BOTH;
+		gbc_lblape2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblape2.gridx = 2;
+		gbc_lblape2.gridy = 4;
+		contentPane.add(lblape2, gbc_lblape2);
+		
+		abizena_2 = new JTextField();
+		GridBagConstraints gbc_abizena_2 = new GridBagConstraints();
+		gbc_abizena_2.fill = GridBagConstraints.BOTH;
+		gbc_abizena_2.insets = new Insets(0, 0, 5, 5);
+		gbc_abizena_2.gridx = 3;
+		gbc_abizena_2.gridy = 4;
+		contentPane.add(abizena_2, gbc_abizena_2);
+		abizena_2.setColumns(10);
+		
+		JLabel lblpuer = new JLabel("Atea");
+		GridBagConstraints gbc_lblpuer = new GridBagConstraints();
+		gbc_lblpuer.anchor = GridBagConstraints.EAST;
+		gbc_lblpuer.fill = GridBagConstraints.VERTICAL;
+		gbc_lblpuer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblpuer.gridx = 4;
+		gbc_lblpuer.gridy = 4;
+		contentPane.add(lblpuer, gbc_lblpuer);
+		
 		atea = new JTextField();
-		atea.setBounds(337, 147, 152, 21);
-		contentPane.add(atea);
+		GridBagConstraints gbc_atea = new GridBagConstraints();
+		gbc_atea.fill = GridBagConstraints.BOTH;
+		gbc_atea.insets = new Insets(0, 0, 5, 0);
+		gbc_atea.gridx = 5;
+		gbc_atea.gridy = 4;
+		contentPane.add(atea, gbc_atea);
 		atea.setColumns(10);
 		
-		JButton sartu = new JButton("Sartu");
-		sartu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				sartu();
-			}
-		});
-		sartu.setBounds(399, 226, 90, 23);
-		contentPane.add(sartu);
+		JLabel lbltel = new JLabel("Telefonoa");
+		GridBagConstraints gbc_lbltel = new GridBagConstraints();
+		gbc_lbltel.fill = GridBagConstraints.BOTH;
+		gbc_lbltel.insets = new Insets(0, 0, 5, 5);
+		gbc_lbltel.gridx = 2;
+		gbc_lbltel.gridy = 5;
+		contentPane.add(lbltel, gbc_lbltel);
+		
+		telefonoa = new JTextField();
+		GridBagConstraints gbc_telefonoa = new GridBagConstraints();
+		gbc_telefonoa.fill = GridBagConstraints.BOTH;
+		gbc_telefonoa.insets = new Insets(0, 0, 5, 5);
+		gbc_telefonoa.gridx = 3;
+		gbc_telefonoa.gridy = 5;
+		contentPane.add(telefonoa, gbc_telefonoa);
+		telefonoa.setColumns(10);
+		
+		JLabel lblemail = new JLabel("Email");
+		GridBagConstraints gbc_lblemail = new GridBagConstraints();
+		gbc_lblemail.anchor = GridBagConstraints.EAST;
+		gbc_lblemail.fill = GridBagConstraints.VERTICAL;
+		gbc_lblemail.insets = new Insets(0, 0, 5, 5);
+		gbc_lblemail.gridx = 4;
+		gbc_lblemail.gridy = 5;
+		contentPane.add(lblemail, gbc_lblemail);
+		
+		email = new JTextField();
+		GridBagConstraints gbc_email = new GridBagConstraints();
+		gbc_email.fill = GridBagConstraints.BOTH;
+		gbc_email.insets = new Insets(0, 0, 5, 0);
+		gbc_email.gridx = 5;
+		gbc_email.gridy = 5;
+		contentPane.add(email, gbc_email);
+		email.setColumns(10);
 		
 		JButton aldatu = new JButton("Aldatu");
+		aldatu.setBackground(new Color(255, 140, 0));
 		aldatu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				aldatu();
 			}
 		});
-		aldatu.setBounds(299, 226, 90, 23);
-		contentPane.add(aldatu);
+		GridBagConstraints gbc_aldatu = new GridBagConstraints();
+		gbc_aldatu.fill = GridBagConstraints.VERTICAL;
+		gbc_aldatu.insets = new Insets(0, 0, 5, 5);
+		gbc_aldatu.gridx = 4;
+		gbc_aldatu.gridy = 6;
+		contentPane.add(aldatu, gbc_aldatu);
+		
+		JButton sartu = new JButton("Sartu");
+		sartu.setBackground(new Color(50, 205, 50));
+		sartu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				sartu();
+			}
+		});
+		GridBagConstraints gbc_sartu = new GridBagConstraints();
+		gbc_sartu.insets = new Insets(0, 0, 5, 0);
+		gbc_sartu.fill = GridBagConstraints.VERTICAL;
+		gbc_sartu.gridx = 5;
+		gbc_sartu.gridy = 6;
+		contentPane.add(sartu, gbc_sartu);
 	}
 	private void vacio() {
 		dni.setText("");
