@@ -3,7 +3,7 @@ package modelo;
 public class libro {
 	private String isbn;
 	private String nombre;
-	private String descripcio;
+	private String descripcion;
 	private String autor;
 	private String editorial;
 	private String genero;
@@ -15,7 +15,7 @@ public class libro {
 			String tapa, String fecha_lanzamiento, Double precio) {
 		this.isbn = isbn;
 		this.nombre = nombre;
-		this.descripcio = descripcio;
+		this.descripcion = descripcio;
 		this.autor = autor;
 		this.editorial = editorial;
 		this.genero = genero;
@@ -35,11 +35,11 @@ public class libro {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getDescripcio() {
-		return descripcio;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setDescripcio(String descripcio) {
-		this.descripcio = descripcio;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	public String getAutor() {
 		return autor;

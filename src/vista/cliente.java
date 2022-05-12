@@ -80,7 +80,7 @@ public class cliente extends JFrame {
 	 */
 	public cliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 673, 345);
+		setBounds(100, 100, 768, 344);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -211,13 +211,21 @@ public class cliente extends JFrame {
 	}
 	private void sartu() {
 		if(!compvacio()) {
-			if(KonprobatzaileaDokumentazioa(dni.getText().trim())) {
-				/*
+			if(KonprobatzaileaDokumentazioa(dni.getText().trim()) && compr_nom_ape(izena.getText().trim()) && compr_nom_ape(abizena.getText().trim()) && compr_nom_ape(abizena_2.getText().trim()) && telefono(telefonoa.getText().trim()) && compr_nom_ape(kokapena.getText().trim()) && compr_nom_ape(kalea.getText().trim()) && numero(zenbakia.getText().trim()) && compr_nom_ape(atea.getText().trim()) && email(email.getText().trim())) {
+				if(c_cliente.compr_documentacion_bd(dni.getText().trim())==1){
 					Cliente c0=new Cliente(dni.getText().trim(),izena.getText().trim(),abizena.getText().trim(),abizena_2.getText().trim(), telefonoa.getText().trim(),email.getText().trim(),kokapena.getText().trim(),kalea.getText().trim(), zenbakia.getText().trim(), atea.getText().trim());
 					c_cliente.sartu(c0);
-					vacio();
-					*/
+					JOptionPane.showMessageDialog(null,(String)"El cliente ha sido creado con exito","Exito",
+							JOptionPane.INFORMATION_MESSAGE,null);
+					vacio();	
+					
+				}else{
+					JOptionPane.showMessageDialog(null,(String)"Este cliente ya existe","Error",
+							JOptionPane.ERROR_MESSAGE,null);
+				}
 			}else {
+				JOptionPane.showMessageDialog(null,(String)"Comprueba que todos los datos sean correctos","Error",
+						JOptionPane.ERROR_MESSAGE,null);
 			}
 		
 		}else {
@@ -226,12 +234,25 @@ public class cliente extends JFrame {
 		}
 	}
 	private void aldatu() {
-		if(compvacio()) {
-			Cliente c0=new Cliente(dni.getText().trim(),izena.getText().trim(),abizena.getText().trim(),abizena_2.getText().trim(), telefonoa.getText().trim(),email.getText().trim(),kokapena.getText().trim(),kalea.getText().trim(), zenbakia.getText().trim(), atea.getText().trim());
-			c_cliente.aldatu(c0);
-			vacio();
+		if(!compvacio()) {
+			if(KonprobatzaileaDokumentazioa(dni.getText().trim()) && compr_nom_ape(izena.getText().trim()) && compr_nom_ape(abizena.getText().trim()) && compr_nom_ape(abizena_2.getText().trim()) && telefono(telefonoa.getText().trim()) && compr_nom_ape(kokapena.getText().trim()) && compr_nom_ape(kalea.getText().trim()) && numero(zenbakia.getText().trim()) && compr_nom_ape(atea.getText().trim()) && email(email.getText().trim())) {
+			if(c_cliente.compr_documentacion_bd(dni.getText().trim())==0){
+				Cliente c0=new Cliente(dni.getText().trim(),izena.getText().trim(),abizena.getText().trim(),abizena_2.getText().trim(), telefonoa.getText().trim(),email.getText().trim(),kokapena.getText().trim(),kalea.getText().trim(), zenbakia.getText().trim(), atea.getText().trim());
+				c_cliente.aldatu(c0);
+				JOptionPane.showMessageDialog(null,(String)"Se han actualizado sus datos","Exito",
+						JOptionPane.INFORMATION_MESSAGE,null);
+				vacio();
+			}else {
+				JOptionPane.showMessageDialog(null,(String)"Este cliente no existe","Error",
+						JOptionPane.ERROR_MESSAGE,null);
+			}
 		}else {
-			
+			JOptionPane.showMessageDialog(null,(String)"Comprueba que todos los datos sean correctos","Error",
+					JOptionPane.ERROR_MESSAGE,null);
+		}
+		}else {
+			JOptionPane.showMessageDialog(null,(String)"Debes rellenar todos los campos","Error",
+					JOptionPane.ERROR_MESSAGE,null);
 		}
 	}
 	private boolean compvacio() {
@@ -265,7 +286,7 @@ public class cliente extends JFrame {
 			}
 	}
 	private Boolean telefono(String telefono) {
-		String regex_telefono="^[0-9]{8,8}[A-Za-z]$";
+		String regex_telefono="^[0-9]{9,9}$";
 		return (Pattern.matches(regex_telefono,telefono));
 	}
 	private Boolean email(String email) {
@@ -279,10 +300,6 @@ public class cliente extends JFrame {
 		}catch(NumberFormatException e) {
 			return false;
 		}
-	}
-	private Boolean compr_docu() {
-		
-		return true;
 	}
 	private Boolean documentacion(String documentacion) {
 		String regex_dni="^[0-9]{8,8}[A-Za-z]$";
