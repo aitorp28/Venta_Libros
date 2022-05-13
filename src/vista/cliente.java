@@ -92,7 +92,7 @@ public class cliente extends JFrame {
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{0, 63, 107, 152, 157, 150, 0};
-		gbl_contentPane.rowHeights = new int[]{47, 24, 23, 26, 24, 24, 0, 40, 0};
+		gbl_contentPane.rowHeights = new int[]{47, 22, 23, 26, 24, 24, 0, 40, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
@@ -126,7 +126,7 @@ public class cliente extends JFrame {
 		contentPane.add(kokapena, gbc_kokapena);
 		kokapena.setColumns(10);
 		
-		JLabel lblloc = new JLabel("Kokapena");
+		JLabel lblloc = new JLabel("Localidad");
 		GridBagConstraints gbc_lblloc = new GridBagConstraints();
 		gbc_lblloc.anchor = GridBagConstraints.EAST;
 		gbc_lblloc.fill = GridBagConstraints.VERTICAL;
@@ -135,7 +135,7 @@ public class cliente extends JFrame {
 		gbc_lblloc.gridy = 1;
 		contentPane.add(lblloc, gbc_lblloc);
 		
-		JLabel lblnombre = new JLabel("Izena");
+		JLabel lblnombre = new JLabel("Nombre");
 		GridBagConstraints gbc_lblnombre = new GridBagConstraints();
 		gbc_lblnombre.fill = GridBagConstraints.BOTH;
 		gbc_lblnombre.insets = new Insets(0, 0, 5, 5);
@@ -161,7 +161,7 @@ public class cliente extends JFrame {
 		contentPane.add(kalea, gbc_kalea);
 		kalea.setColumns(10);
 		
-		JLabel lblcalle = new JLabel("Kalea");
+		JLabel lblcalle = new JLabel("Calle");
 		GridBagConstraints gbc_lblcalle = new GridBagConstraints();
 		gbc_lblcalle.anchor = GridBagConstraints.EAST;
 		gbc_lblcalle.fill = GridBagConstraints.VERTICAL;
@@ -170,7 +170,7 @@ public class cliente extends JFrame {
 		gbc_lblcalle.gridy = 2;
 		contentPane.add(lblcalle, gbc_lblcalle);
 		
-		JLabel lblape = new JLabel("Abizena");
+		JLabel lblape = new JLabel("Apellido");
 		GridBagConstraints gbc_lblape = new GridBagConstraints();
 		gbc_lblape.fill = GridBagConstraints.BOTH;
 		gbc_lblape.insets = new Insets(0, 0, 5, 5);
@@ -187,7 +187,7 @@ public class cliente extends JFrame {
 		contentPane.add(abizena, gbc_abizena);
 		abizena.setColumns(10);
 		
-		JLabel lblnum = new JLabel("Zenbakia");
+		JLabel lblnum = new JLabel("Numero");
 		GridBagConstraints gbc_lblnum = new GridBagConstraints();
 		gbc_lblnum.anchor = GridBagConstraints.EAST;
 		gbc_lblnum.fill = GridBagConstraints.VERTICAL;
@@ -205,7 +205,7 @@ public class cliente extends JFrame {
 		contentPane.add(zenbakia, gbc_zenbakia);
 		zenbakia.setColumns(10);
 		
-		JLabel lblape2 = new JLabel("Bigarren abizena");
+		JLabel lblape2 = new JLabel("Segundo Apellido");
 		GridBagConstraints gbc_lblape2 = new GridBagConstraints();
 		gbc_lblape2.fill = GridBagConstraints.BOTH;
 		gbc_lblape2.insets = new Insets(0, 0, 5, 5);
@@ -222,7 +222,7 @@ public class cliente extends JFrame {
 		contentPane.add(abizena_2, gbc_abizena_2);
 		abizena_2.setColumns(10);
 		
-		JLabel lblpuer = new JLabel("Atea");
+		JLabel lblpuer = new JLabel("Puerta");
 		GridBagConstraints gbc_lblpuer = new GridBagConstraints();
 		gbc_lblpuer.anchor = GridBagConstraints.EAST;
 		gbc_lblpuer.fill = GridBagConstraints.VERTICAL;
@@ -240,7 +240,7 @@ public class cliente extends JFrame {
 		contentPane.add(atea, gbc_atea);
 		atea.setColumns(10);
 		
-		JLabel lbltel = new JLabel("Telefonoa");
+		JLabel lbltel = new JLabel("Telefono");
 		GridBagConstraints gbc_lbltel = new GridBagConstraints();
 		gbc_lbltel.fill = GridBagConstraints.BOTH;
 		gbc_lbltel.insets = new Insets(0, 0, 5, 5);
@@ -277,6 +277,7 @@ public class cliente extends JFrame {
 		
 		JButton aldatu = new JButton("Aldatu");
 		aldatu.setBackground(new Color(255, 140, 0));
+		
 		aldatu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				aldatu();
