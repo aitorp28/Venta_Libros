@@ -83,7 +83,6 @@ public class c_cliente {
 		}
 			catch (SQLException | ClassNotFoundException sqle){
 			// ez baldin bada konexioa era egokian egin
-				
 			}
 	}	
 }
