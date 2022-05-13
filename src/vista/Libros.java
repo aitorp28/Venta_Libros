@@ -10,6 +10,12 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+
+import controlador.c_cliente;
+import controlador.c_libro;
+import modelo.libro;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -37,6 +43,8 @@ import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.DropMode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Libros extends JFrame {
 
@@ -63,6 +71,7 @@ public class Libros extends JFrame {
 	private JTextArea taDescripcion;
 	private JScrollPane scrollPane_1;
 	private JTable tbLibros;
+	public DefaultTableModel dtm_tabla;
 
 	/**
 	 * Launch the application.
@@ -168,6 +177,7 @@ public class Libros extends JFrame {
 		contentPane.add(lblFechaDeLanzamiento, gbc_lblFechaDeLanzamiento);
 		
 		tfFechaDeLanzamiento = new JTextField();
+		tfFechaDeLanzamiento.setToolTipText("YYYY-MM-DD");
 		GridBagConstraints gbc_tfFechaDeLanzamiento = new GridBagConstraints();
 		gbc_tfFechaDeLanzamiento.insets = new Insets(0, 0, 5, 5);
 		gbc_tfFechaDeLanzamiento.fill = GridBagConstraints.HORIZONTAL;
@@ -253,19 +263,30 @@ public class Libros extends JFrame {
 		
 		panel = new Panel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.gridx = 2;
 		gbc_panel.gridy = 5;
 		contentPane.add(panel, gbc_panel);
 		
-		rbtnTapaBlanda = new JRadioButton("Tabla Blanda");
+		rbtnTapaBlanda = new JRadioButton("Tapa Blanda");
+		rbtnTapaBlanda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rbtnTapaDura.setSelected(false);
+			}
+		});
+		rbtnTapaBlanda.setHorizontalAlignment(SwingConstants.LEFT);
 		panel.add(rbtnTapaBlanda);
 		
 		rbtnTapaDura = new JRadioButton("Tapa Dura");
+		rbtnTapaDura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rbtnTapaBlanda.setSelected(false);
+			}
+		});
+		rbtnTapaDura.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(rbtnTapaDura);
 		
-		rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("New radio item");
-		panel.add(rdbtnmntmNewRadioItem);
 		
 		btnCrear = new JButton("Crear");
 		btnCrear.setBackground(new Color(50, 205, 50));
@@ -275,36 +296,20 @@ public class Libros extends JFrame {
 		gbc_btnCrear.gridx = 2;
 		gbc_btnCrear.gridy = 7;
 		contentPane.add(btnCrear, gbc_btnCrear);
-		btnCrear.addActionListener(new ActionListener() {
-			
+		btnCrear.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-			if(comprobar_Autor(tfAutor.getText().trim())
-									&&comprobar_nombre(tfEditorial.getText().trim())
-										&&comprobar_Genero(tfGenero.getText().trim())
-											&&comprobar_fecha(tfFechaDeLanzamiento.getText().trim())
-												//&&comprobar_precio(tfPrecio.getText().trim())
-													//&&comprobar_precio(taDescripcion.getText().trim())
-														&&comprobar_ISBN(tfISBN.getText().trim()))
-			{
-				/*if(rbtnTapaBlanda.isSelected()!= rbtnTapaDura.isSelected()) {
-					System.out.println("yers");
-				}{
-					
-				}*/
-				System.out.println("ejjejejfjsfjsejfsjefsjsjej");
-			}else {
-				System.out.println("nope");
-			}
-		
-			
+			crear();	
+			c_libro.kargatu_taula(tbLibros,dtm_tabla);
 		}
 		});
-		
-		
-		
 		btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cambiar();
+				c_libro.kargatu_taula(tbLibros,dtm_tabla);
+			}
+		});
 		btnModificar.setBackground(new Color(255, 140, 0));
 		GridBagConstraints gbc_btnModificar = new GridBagConstraints();
 		gbc_btnModificar.fill = GridBagConstraints.VERTICAL;
@@ -314,6 +319,12 @@ public class Libros extends JFrame {
 		contentPane.add(btnModificar, gbc_btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eliminar();
+				c_libro.kargatu_taula(tbLibros,dtm_tabla);
+			}
+		});
 		btnEliminar.setBackground(new Color(255, 0, 0));
 		GridBagConstraints gbc_btnEliminar = new GridBagConstraints();
 		gbc_btnEliminar.fill = GridBagConstraints.VERTICAL;
@@ -334,20 +345,23 @@ public class Libros extends JFrame {
 		contentPane.add(scrollPane_1, gbc_scrollPane_1);
 		
 		tbLibros = new JTable();
+		tbLibros.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				poner_textos();
+			}
+		});
+		tbLibros.setFillsViewportHeight(true);
+		tbLibros.setAutoCreateRowSorter(true); 
+		tbLibros.setRowSelectionAllowed(true);
 		scrollPane_1.setViewportView(tbLibros);
-		
-		
-		
+		c_libro.kargatu_taula(tbLibros,dtm_tabla);
 	}
-	
-	
 	private Boolean comprobar_nombre(String nbm_Libro) {
 		String regex_nbm_Libro="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$";
 		return Pattern.matches(regex_nbm_Libro, nbm_Libro);
 		
 	}
-	
-	
 	private Boolean comprobar_Autor(String autor_Libro) {
 		String regex_autor_Libro="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s[a-zA-ZÀ-ÿ\u00f1\u00d1])*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$";
 		return Pattern.matches(regex_autor_Libro, autor_Libro);
@@ -363,27 +377,14 @@ public class Libros extends JFrame {
 		String regex_isbn_Libro="[0-9]{13}$";
 		return Pattern.matches(regex_isbn_Libro, isbn_Libro);
 		
-	}
-	
+	}	
 	private Boolean comprobar_fecha(String fecha_Libro) {
-		try {
-			
-	
-		SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
-
-		String dateString = format.format( new Date()   );
-		Date   date       = format.parse ( "31-12-2009" );   
-		
-		return true;
-		}catch(NumberFormatException e) {
-			return false;
-		} catch (ParseException e) {
-			return false;
-		}
+		String regex_fecha_Libro="^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$";
+		return (Pattern.matches(regex_fecha_Libro, fecha_Libro));
 	}
 	private Boolean comprobar_descripcion(String descripcion_Libro) {
 		
-			if (descripcion_Libro.length() > 199) {
+			if (descripcion_Libro.length() < 199) {
 				return true;
 			}else {
 				return false;
@@ -394,7 +395,7 @@ public class Libros extends JFrame {
 	private Boolean comprobar_precio(String precio) {
 		try {
 			
-			Double.parseDouble(precio);
+			Float.parseFloat(precio);
 			return true;
 			
 		}catch(NumberFormatException e) {
@@ -402,5 +403,117 @@ public class Libros extends JFrame {
 		}
 		
 	}
-
+	private boolean compvacio() {
+		return (tfAutor.getText().equals("") || tfEditorial.getText().equals("") || tfGenero.getText().equals("") || tfFechaDeLanzamiento.getText().equals("") || tfPrecio.getText().equals("") || taDescripcion.getText().equals("") || tfISBN.getText().equals("") ||!(rbtnTapaBlanda.isSelected()&& !rbtnTapaDura.isSelected() || !rbtnTapaBlanda.isSelected() && rbtnTapaDura.isSelected()));
+	
+	}
+	private void crear() {
+		if(!compvacio()) {
+			if(comprobar_Autor(tfAutor.getText().trim())
+					&&comprobar_nombre(tfEditorial.getText().trim())
+						&&comprobar_nombre(tfNombre.getText().trim())
+						&&comprobar_Genero(tfGenero.getText().trim())
+							&&comprobar_fecha(tfFechaDeLanzamiento.getText().trim())
+								&&comprobar_precio(tfPrecio.getText().trim())
+									&&comprobar_descripcion(taDescripcion.getText().trim())
+										&&comprobar_ISBN(tfISBN.getText().trim())
+										&&(rbtnTapaBlanda.isSelected()&& !rbtnTapaDura.isSelected() || !rbtnTapaBlanda.isSelected() && rbtnTapaDura.isSelected())){
+				
+					if(c_libro.compr_isbn_bd(tfISBN.getText().trim())==1) {
+						libro l0;
+						if(rbtnTapaBlanda.isSelected()) {
+							l0=new libro(tfISBN.getText().trim(),tfNombre.getText().trim(),taDescripcion.getText().trim(),tfAutor.getText().trim(),tfEditorial.getText().trim(),tfGenero.getText().trim(),rbtnTapaBlanda.getText().trim(),tfFechaDeLanzamiento.getText().trim(),Float.parseFloat(tfPrecio.getText().trim()));
+						}else {
+							l0=new libro(tfISBN.getText().trim(),tfNombre.getText().trim(),taDescripcion.getText().trim(),tfAutor.getText().trim(),tfEditorial.getText().trim(),tfGenero.getText().trim(),rbtnTapaDura.getText().trim(),tfFechaDeLanzamiento.getText().trim(),Float.parseFloat(tfPrecio.getText().trim()));
+						}
+						c_libro.sartu(l0);
+						JOptionPane.showMessageDialog(null,(String)"El libro ha sido guardado con exito","Exito",
+								JOptionPane.INFORMATION_MESSAGE,null);
+						vacio();
+					}else {
+						JOptionPane.showMessageDialog(null,(String)"Este libro ya existe","Error",
+								JOptionPane.ERROR_MESSAGE,null);
+					}
+				
+			}else {
+				JOptionPane.showMessageDialog(null,(String)"Comprueba que todos los datos sean correctos","Error",
+						JOptionPane.ERROR_MESSAGE,null);
+			}
+		}else {
+			JOptionPane.showMessageDialog(null,(String)"Debes rellenar todos los campos","Error",
+					JOptionPane.ERROR_MESSAGE,null);
+		}
+	}
+	private void vacio() {
+		tfAutor.setText("");
+		tfEditorial.setText("");
+		tfNombre.setText("");
+		tfGenero.setText("");
+		tfFechaDeLanzamiento.setText("");
+		tfPrecio.setText("");
+		taDescripcion.setText("");
+		tfISBN.setText("");
+		rbtnTapaBlanda.setSelected(false);
+		rbtnTapaDura.setSelected(false);
+	}
+	private void cambiar() {
+		if(!compvacio()) {
+			if(comprobar_Autor(tfAutor.getText().trim())
+					&&comprobar_nombre(tfEditorial.getText().trim())
+						&&comprobar_nombre(tfNombre.getText().trim())
+						&&comprobar_Genero(tfGenero.getText().trim())
+							&&comprobar_fecha(tfFechaDeLanzamiento.getText().trim())
+								&&comprobar_precio(tfPrecio.getText().trim())
+									&&comprobar_descripcion(taDescripcion.getText().trim())
+										&&comprobar_ISBN(tfISBN.getText().trim())
+										&&(rbtnTapaBlanda.isSelected()&& !rbtnTapaDura.isSelected() || !rbtnTapaBlanda.isSelected() && rbtnTapaDura.isSelected())){
+				
+					if(c_libro.compr_isbn_bd(tfISBN.getText().trim())==0) {
+						libro l0;
+						if(rbtnTapaBlanda.isSelected()) {
+							l0=new libro(tfISBN.getText().trim(),tfNombre.getText().trim(),taDescripcion.getText().trim(),tfAutor.getText().trim(),tfEditorial.getText().trim(),tfGenero.getText().trim(),rbtnTapaBlanda.getText().trim(),tfFechaDeLanzamiento.getText().trim(),Float.parseFloat(tfPrecio.getText().trim()));
+						}else {
+							l0=new libro(tfISBN.getText().trim(),tfNombre.getText().trim(),taDescripcion.getText().trim(),tfAutor.getText().trim(),tfEditorial.getText().trim(),tfGenero.getText().trim(),rbtnTapaDura.getText().trim(),tfFechaDeLanzamiento.getText().trim(),Float.parseFloat(tfPrecio.getText().trim()));
+						}
+						c_libro.aldatu(l0);
+						JOptionPane.showMessageDialog(null,(String)"El libro ha sido cambiado con exito","Exito",
+								JOptionPane.INFORMATION_MESSAGE,null);
+						vacio();
+					}else {
+						JOptionPane.showMessageDialog(null,(String)"Este libro no existe","Error",
+								JOptionPane.ERROR_MESSAGE,null);
+					}
+				
+			}else {
+				JOptionPane.showMessageDialog(null,(String)"Comprueba que todos los datos sean correctos","Error",
+						JOptionPane.ERROR_MESSAGE,null);
+			}
+		}else {
+			JOptionPane.showMessageDialog(null,(String)"Debes rellenar todos los campos","Error",
+					JOptionPane.ERROR_MESSAGE,null);
+		}
+	}
+	private void poner_textos() {
+		try {
+				tfISBN.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 0).toString());
+				tfNombre.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 1).toString());
+				taDescripcion.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 2).toString());
+				tfAutor.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 3).toString());
+				tfEditorial.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 4).toString());
+				tfGenero.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 5).toString());
+				tfFechaDeLanzamiento.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 7).toString());
+				tfPrecio.setText(tbLibros.getValueAt(tbLibros.getSelectedRow(), 8).toString());
+			}catch(IndexOutOfBoundsException x){
+			JOptionPane.showMessageDialog(null,(String)"Aukeratu errenkada bat","Errorea",
+					JOptionPane.WARNING_MESSAGE,null);
+			}
+		
+		}
+	private void eliminar() {
+	    int result = JOptionPane.showConfirmDialog(null, "Estás seguro que deseas eliminar este libro","Warning", JOptionPane.YES_NO_CANCEL_OPTION);
+	    if(result==0) {
+	    	libro l0=new libro(tbLibros.getValueAt(tbLibros.getSelectedRow(), 0).toString());
+	    	c_libro.ezabatu(l0);
+	    }
+	}
 }

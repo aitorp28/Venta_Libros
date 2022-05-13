@@ -9,13 +9,16 @@ public class libro {
 	private String genero;
 	private String tapa;
 	private String fecha_lanzamiento;
-	private Double precio;
+	private Float precio;
 	
-	public libro(String isbn, String nombre, String descripcio, String autor, String editorial, String genero,
-			String tapa, String fecha_lanzamiento, Double precio) {
+	public libro(String isbn) {
+		this.isbn=isbn;
+	}
+	public libro(String isbn, String nombre, String descripcion, String autor, String editorial, String genero,
+			String tapa, String fecha_lanzamiento, Float precio) {
 		this.isbn = isbn;
 		this.nombre = nombre;
-		this.descripcion = descripcio;
+		this.descripcion = descripcion;
 		this.autor = autor;
 		this.editorial = editorial;
 		this.genero = genero;
@@ -71,10 +74,10 @@ public class libro {
 	public void setFecha_lanzamiento(String fecha_lanzamiento) {
 		this.fecha_lanzamiento = fecha_lanzamiento;
 	}
-	public Double getPrecio() {
+	public Float getPrecio() {
 		return precio;
 	}
-	public void setPrecio(Double precio) {
+	public void setPrecio(Float precio) {
 		this.precio = precio;
 	}
 	
